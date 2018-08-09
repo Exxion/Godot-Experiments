@@ -1,0 +1,77 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://quote-unquote-art/costanza.jpg" type="Texture" id=2]
+[ext_resource path="res://Bat.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 30.0183, 30.0216 )
+
+[node name="Player" type="RigidBody2D" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+mode = 2
+mass = 1.0
+friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = 2
+contacts_reported = 10
+contact_monitor = false
+sleeping = false
+can_sleep = false
+linear_velocity = Vector2( 0, 0 )
+linear_damp = -1.0
+angular_velocity = 0.0
+angular_damp = -1.0
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision", "Linear", "collision" ]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+max_floor_normal_y = -0.8
+jump_speed = 700.0
+max_jumps = 3
+ground_accel = 6000.0
+air_accel = 3000.0
+ground_decel = 4000.0
+air_decel = 1000.0
+max_speed = 550.0
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+
+shape = SubResource( 1 )
+
+[node name="Bat" parent="." index="2" instance=ExtResource( 3 )]
+
+[node name="PinJoint2D" type="PinJoint2D" parent="." index="3"]
+
+node_a = NodePath("../StaticBody2D")
+node_b = NodePath("../Bat")
+bias = 0.9
+disable_collision = true
+softness = 0.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." index="4"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+
