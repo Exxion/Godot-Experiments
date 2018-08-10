@@ -63,4 +63,4 @@ func _integrate_forces(state):
 	state.transform.origin.x = fposmod(state.transform.origin.x, get_viewport().size.x)
 	state.transform.origin.y = fmod(state.transform.origin.y, get_viewport().size.y) #You can fly upwards off the screen, but not downwards.
 	if((state.transform.origin - cached_pos).length()):
-		bat.set_mode(MODE_STATIC) #Prevents the pin joint from going nuclear if we wrap around the level. The bat will turn itself back on before the next physics frame.
+		bat.freeze() #Prevents the pin joint from going nuclear if we wrap around the level. The bat will turn itself back on before the next physics frame.
