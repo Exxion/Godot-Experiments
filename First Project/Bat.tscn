@@ -9,7 +9,7 @@ custom_solver_bias = 0.0
 radius = 9.45984
 height = 98.5249
 
-[node name="Bat" type="RigidBody2D"]
+[node name="Bat" type="RigidBody2D" index="0"]
 
 position = Vector2( 70, 0 )
 input_pickable = false
@@ -31,7 +31,7 @@ linear_damp = 0.8
 angular_velocity = 0.0
 angular_damp = 0.0
 script = ExtResource( 1 )
-_sections_unfolded = [ "Angular", "Collision", "Linear", "Transform" ]
+_sections_unfolded = [ "Angular", "Collision", "Linear", "Pause", "Transform" ]
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true

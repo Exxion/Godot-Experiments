@@ -9,7 +9,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 30.0183, 30.0216 )
 
-[node name="Player" type="RigidBody2D" index="0"]
+[node name="Player" type="RigidBody2D"]
 
 input_pickable = false
 collision_layer = 1
@@ -30,7 +30,7 @@ linear_damp = -1.0
 angular_velocity = 0.0
 angular_damp = -1.0
 script = ExtResource( 1 )
-_sections_unfolded = [ "Collision", "Linear", "collision" ]
+_sections_unfolded = [ "Collision", "Linear", "Pause", "collision" ]
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true
