@@ -9,6 +9,8 @@ export(float) var air_accel
 export(float) var ground_decel
 export(float) var air_decel
 export(float) var max_speed
+export(float) var bat_offset_scale #How much the distance of the mouse from the player affects the bat offset
+export(float) var max_bat_offset
 
 var jumps_left = 0
 var jumping = false
@@ -54,13 +56,18 @@ func _integrate_forces(state):
 			movedir *= ground_decel
 		else:
 			movedir *= air_decel
-		if(abs(movedir) > abs(state.linear_velocity.x)):
+		if abs(movedir) > abs(state.linear_velocity.x):
 			state.linear_velocity.x = 0
 		else:
 			state.linear_velocity.x += movedir
 	
+	if Input.is_action_pressed("attack"):
+		$BatHolder.constant_linear_velocity = (get_local_mouse_position() * bat_offset_scale).clamped(max_bat_offset)
+	else:
+		$BatHolder.constant_linear_velocity = Vector2()
+	
 	var cached_pos = state.transform.origin
-	state.transform.origin.x = fposmod(state.transform.origin.x, get_viewport().size.x)
-	state.transform.origin.y = fmod(state.transform.origin.y, get_viewport().size.y) #You can fly upwards off the screen, but not downwards.
-	if((state.transform.origin - cached_pos).length()):
+	state.transform.origin.x = fposmod(state.transform.origin.x, get_viewport().get_visible_rect().size.x)
+	state.transform.origin.y = fmod(state.transform.origin.y, get_viewport().get_visible_rect().size.y) #You can fly upwards off the screen, but not downwards.
+	if (state.transform.origin - cached_pos).length():
 		bat.freeze() #Prevents the pin joint from going nuclear if we wrap around the level. The bat will turn itself back on before the next physics frame.

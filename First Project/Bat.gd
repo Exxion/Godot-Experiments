@@ -11,11 +11,11 @@ func freeze():
 	frozen = true
 
 func _physics_process(delta):
-	if(frozen):
-		set_mode(MODE_RIGID) #Turn back on in case the player set us to MODE_STATIC
+	if frozen:
+		set_mode(MODE_RIGID)
 		frozen = false
 
 func _integrate_forces(state):
-	if(frozen):
+	if frozen:
 		state.linear_velocity = cached_vel_lin
 		state.angular_velocity = cached_vel_ang
