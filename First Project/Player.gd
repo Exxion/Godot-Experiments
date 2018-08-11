@@ -41,25 +41,18 @@ func _integrate_forces(state):
 		movedir -= 1
 	if Input.is_action_pressed("move_right"):
 		movedir += 1
-	if movedir:
-		movedir *= state.step
-		if on_floor:
-			movedir *= ground_accel
-		else:
-			movedir *= air_accel
-		state.linear_velocity.x += movedir
-		state.linear_velocity.x = clamp(state.linear_velocity.x, -max_speed, max_speed)
-	else:
-		movedir = -sign(state.linear_velocity.x)
-		movedir *= state.step
-		if on_floor:
-			movedir *= ground_decel
-		else:
-			movedir *= air_decel
-		if abs(movedir) > abs(state.linear_velocity.x):
-			state.linear_velocity.x = 0
-		else:
-			state.linear_velocity.x += movedir
+	var target_vel = movedir * max_speed
+	var dv
+	if state.linear_velocity.x * movedir >= target_vel * movedir: #If we're already faster than the target movement speed (or we're not trying to move), use the decel values.
+		dv = -ground_decel if on_floor else -air_decel
+		dv *= sign(state.linear_velocity.x)
+	else: #Otherwise, use the accel values.
+		dv = ground_accel if on_floor else air_accel
+		dv *= movedir
+	dv *= state.step
+	var dv_max = abs(state.linear_velocity.x - target_vel)
+	dv = clamp(dv, -dv_max, dv_max)
+	state.linear_velocity.x += dv
 	
 	if Input.is_action_pressed("attack"):
 		$BatHolder.constant_linear_velocity = (get_local_mouse_position() * bat_offset_scale).clamped(max_bat_offset)
